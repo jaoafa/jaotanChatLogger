@@ -54,6 +54,7 @@ public class ChatReceiveEvent {
 		String attachments = implode(attachmentsList, "\n");
 		String timestamp = event.getMessage().getTimestamp().toString();
 
+		ChatLoggerNotice.run(event.getMessage());
 		Main.todaymsgcount++;
 
 		event.getClient().changePresence(StatusType.ONLINE, ActivityType.WATCHING, "Today message count: " + Main.todaymsgcount + "");

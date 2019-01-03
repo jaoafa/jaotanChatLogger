@@ -55,6 +55,7 @@ public class ChatEditEvent {
 			return;
 		}
 		String timestamp = event.getNewMessage().getEditedTimestamp().get().toString();
+
 		try {
 			PreparedStatement statement_exists = MySQL.getNewPreparedStatement("SELECT COUNT(rowid) FROM discordchat WHERE id = ? AND type = ? AND timestamp = ?");
 			statement_exists.setString(1, id);
