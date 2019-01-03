@@ -47,7 +47,7 @@ public class ChatLoggerNotice {
 		}
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		message.getClient().getChannelByID(528025838663499809L).sendMessage("[" + sdf.format(new Date()) + "] Yesterday message count: " + Main.todaymsgcount);
+		message.getClient().getChannelByID(528025838663499809L).sendMessage("**[" + sdf.format(new Date()) + " | " + Main.getHostName() + "]** " + "Yesterday message count: " + Main.todaymsgcount);
 		oldDate = date_str;
 	}
 }

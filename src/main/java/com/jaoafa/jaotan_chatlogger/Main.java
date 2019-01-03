@@ -6,8 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 import java.util.Timer;
 
@@ -26,6 +28,7 @@ public class Main {
 	public static long ConnectionCreate = 0;
 
 	public static int todaymsgcount = 0;
+	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
 	public static void main(String[] args) {
 		File f = new File("conf.properties");
@@ -114,5 +117,17 @@ public class Main {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	/**
+	 * ホスト名を返す
+	 * @return ホスト名。取得できなければnullを返却
+	 */
+	public static String getHostName() {
+	    try {
+	        return InetAddress.getLocalHost().getHostName();
+	    }catch (Exception e) {
+	        e.printStackTrace();
+		    return null;
+	    }
 	}
 }
