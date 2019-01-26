@@ -75,8 +75,8 @@ public class ChatReceiveEvent {
 			System.out.println("not exists");
 
 			PreparedStatement statement = MySQL.getNewPreparedStatement("INSERT INTO discordchat "
-					+ "(id, text, rawtext, channel_name, channel_id, author_name, author_nickname, author_id, author_discriminator, author_bot, msgtype, type, attachments, timestamp) VALUES "
-					+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+					+ "(id, text, rawtext, channel_name, channel_id, author_name, author_nickname, author_id, author_discriminator, author_bot, msgtype, type, attachments, machine, timestamp) VALUES "
+					+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 			statement.setString(1, id);
 			statement.setString(2, text);
 			statement.setString(3, rawtext);
@@ -90,7 +90,8 @@ public class ChatReceiveEvent {
 			statement.setString(11, msgtype);
 			statement.setString(12, type);
 			statement.setString(13, attachments);
-			statement.setString(14, timestamp);
+			statement.setString(14, Main.getHostName());
+			statement.setString(15, timestamp);
 			statement.executeUpdate();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();

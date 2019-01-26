@@ -29,6 +29,22 @@ public class ChatLoggerNotice {
 			return;
 		}
 
+		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+			PreparedStatement statement_exists = MySQL.getNewPreparedStatement("SELECT COUNT(rowid) FROM discordchat WHERE type = ? AND date LIKE ?");
+			statement_exists.setString(1, "new");
+			statement_exists.setString(2, sdf.format(new Date()) + "%");
+			ResultSet res = statement_exists.executeQuery();
+			if(res.next()){
+				int i = res.getInt(1);
+				System.out.println("[SyncTodayMessageCount] Synced : " + Main.todaymsgcount + " -> " + i);
+				Main.todaymsgcount = i;
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+
 		// 既に投稿されていないか
 		try {
 			PreparedStatement statement_exists = MySQL.getNewPreparedStatement("SELECT COUNT(rowid) FROM discordchat WHERE id = ? AND timestamp = ?");
@@ -49,5 +65,8 @@ public class ChatLoggerNotice {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		message.getClient().getChannelByID(528025838663499809L).sendMessage("**[" + sdf.format(new Date()) + " | " + Main.getHostName() + "]** " + "Yesterday message count: " + Main.todaymsgcount);
 		oldDate = date_str;
+
+		Thread thread = new DuplicateProcessingTask(message.getClient());
+		thread.start();
 	}
 }

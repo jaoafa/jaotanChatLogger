@@ -102,7 +102,6 @@ public class Main {
 
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new SyncTodayMessageCountTask(), 0, 600000); // 10分毎
-
 	}
 	public static IDiscordClient createClient(String token, boolean login) { // Returns a new instance of the Discord client
 		ClientBuilder clientBuilder = new ClientBuilder(); // Creates the ClientBuilder instance
