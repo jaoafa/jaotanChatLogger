@@ -99,6 +99,7 @@ public class Main {
 		dispatcher.registerListener(new ChatReceiveEvent());
 		dispatcher.registerListener(new ChatEditEvent());
 		dispatcher.registerListener(new ChatDeleteEvent());
+		dispatcher.registerListener(new OnCommand());
 
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new SyncTodayMessageCountTask(), 0, 600000); // 10分毎

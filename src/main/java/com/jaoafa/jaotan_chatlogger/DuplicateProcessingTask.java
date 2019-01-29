@@ -3,6 +3,8 @@ package com.jaoafa.jaotan_chatlogger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.jaoafa.jaotan_chatlogger.Lib.MySQL;
@@ -19,16 +21,29 @@ public class DuplicateProcessingTask extends Thread {
 		// 重複整理
 		IChannel channel = client.getChannelByID(528025838663499809L);
 
+		if(!Main.getHostName().equalsIgnoreCase("jaoMain")){
+			return;
+		}
+
 		channel.sendMessage("**[" + Main.sdf.format(new Date()) + " | " + Main.getHostName() + "]** " + "チャットデータの重複削除処理を開始します。");
 		int success = 0;
 		int error = 0;
 		int processed = 0;
 		try {
-			PreparedStatement statement_distinct = MySQL.getNewPreparedStatement("SELECT DISTINCT id,type FROM discordchat");
+			PreparedStatement statement_distinct = MySQL.getNewPreparedStatement("SELECT DISTINCT id,type FROM discordchat WHERE date LIKE ? OR date LIKE ?");
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, -2);
+			statement_distinct.setString(1, new SimpleDateFormat("yyyy-MM-dd").format(cal.getTime()) + "%"); // 一昨日
+			Calendar cal_yesterday = Calendar.getInstance();
+			cal_yesterday.add(Calendar.DATE, -1);
+			statement_distinct.setString(1, new SimpleDateFormat("yyyy-MM-dd").format(cal_yesterday.getTime()) + "%"); // 昨日
+			statement_distinct.setString(2, new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "%");
 			ResultSet res_distinct = statement_distinct.executeQuery();
 			while(res_distinct.next()){
 				String id = res_distinct.getString("id");
 				String type = res_distinct.getString("type");
+
+				System.out.println("[DuplicateProcessingTask|START|" + processed + "] " + id + " " + type + " (Success: " + success + "|Error: " + error + ")");
 
 				PreparedStatement statement_chatCheck = MySQL.getNewPreparedStatement("SELECT * FROM discordchat WHERE id = ? AND type = ?");
 				statement_chatCheck.setString(1, id);
@@ -51,6 +66,8 @@ public class DuplicateProcessingTask extends Thread {
 					error++;
 				}
 				processed++;
+
+				System.out.println("[DuplicateProcessingTask|END|" + processed + "] " + id + " " + type + " (Success: " + success + "|Error: " + error + ")");
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();

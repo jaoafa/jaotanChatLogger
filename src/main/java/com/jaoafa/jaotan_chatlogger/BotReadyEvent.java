@@ -13,5 +13,8 @@ public class BotReadyEvent {
 		Runtime.getRuntime().addShutdownHook(new Thread(
             () -> event.getClient().getChannelByID(528025838663499809L).sendMessage("**[" + Main.sdf.format(new Date()) + " | " + Main.getHostName() + "]** " + "End jaotanChatLogger")
         ));
+		Runtime.getRuntime().addShutdownHook(new Thread(
+	            () -> event.getClient().getChannelByID(528025838663499809L).sendMessage("**[" + Main.sdf.format(new Date()) + " | " + Main.getHostName() + "]** " + "End jaotanChatLogger")
+	        ));
 	}
 }
