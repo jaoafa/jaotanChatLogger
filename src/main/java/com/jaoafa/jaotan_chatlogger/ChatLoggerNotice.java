@@ -45,6 +45,9 @@ public class ChatLoggerNotice {
 			e.printStackTrace();
 		}
 
+		/*
+		2019/04/02無効化。PHPで処理させるように？
+
 		// 既に投稿されていないか
 		try {
 			PreparedStatement statement_exists = MySQL.getNewPreparedStatement("SELECT COUNT(rowid) FROM discordchat WHERE id = ? AND timestamp = ?");
@@ -68,5 +71,6 @@ public class ChatLoggerNotice {
 
 		Thread thread = new DuplicateProcessingTask(message.getClient());
 		thread.start();
+		*/
 	}
 }

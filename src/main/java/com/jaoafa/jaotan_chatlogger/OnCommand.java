@@ -10,7 +10,7 @@ public class OnCommand {
 			return;
 		}
 
-		//System.out.println("[MESSAGE] " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator() + ": " + event.getMessage().getContent());
+		System.out.println("[MESSAGE] " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator() + ": " + event.getMessage().getContent());
 
 		if(!event.getMessage().getContent().equalsIgnoreCase("/duplicate")){
 			return;

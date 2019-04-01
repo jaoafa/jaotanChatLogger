@@ -27,6 +27,7 @@ public class DuplicateProcessingTask extends Thread {
 
 		channel.sendMessage("**[" + Main.sdf.format(new Date()) + " | " + Main.getHostName() + "]** " + "チャットデータの重複削除処理を開始します。");
 		int success = 0;
+		int alreadysuccess = 0;
 		int error = 0;
 		int processed = 0;
 		try {
@@ -53,13 +54,18 @@ public class DuplicateProcessingTask extends Thread {
 				try {
 					while(res_chatCheck.next()){
 						int rowid = res_chatCheck.getInt("rowid");
+						boolean status = res_chatCheck.getBoolean("status");
 
 						PreparedStatement statement_disable = MySQL.getNewPreparedStatement("UPDATE discordchat SET status = ? WHERE rowid = ?");
 						statement_disable.setBoolean(1, false);
 						statement_disable.setInt(2, rowid);
 						statement_disable.executeUpdate();
 
-						success++;
+						if(status){
+							success++;
+						}else{
+							alreadysuccess++;
+						}
 					}
 				} catch (ClassNotFoundException | SQLException e) {
 					e.printStackTrace();
@@ -73,6 +79,6 @@ public class DuplicateProcessingTask extends Thread {
 			e.printStackTrace();
 		}
 
-		channel.sendMessage("**[" + Main.sdf.format(new Date()) + " | " + Main.getHostName() + "]** " + "チャットデータの重複削除処理を完了しました。\n処理数: " + processed + "\n処理成功数: " + success + "\n処理失敗数: " + error);
+		channel.sendMessage("**[" + Main.sdf.format(new Date()) + " | " + Main.getHostName() + "]** " + "チャットデータの重複削除処理を完了しました。\n処理数: " + processed + "\n処理成功数: " + success + "\n既処理数: " + alreadysuccess + "\n処理失敗数: " + error);
 	}
 }
