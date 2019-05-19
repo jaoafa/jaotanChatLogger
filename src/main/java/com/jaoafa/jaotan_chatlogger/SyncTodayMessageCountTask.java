@@ -1,17 +1,11 @@
 package com.jaoafa.jaotan_chatlogger;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.TimerTask;
-
-import com.jaoafa.jaotan_chatlogger.Lib.MySQL;
 
 public class SyncTodayMessageCountTask extends TimerTask {
 	@Override
 	public void run() {
+		/*
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -27,5 +21,6 @@ public class SyncTodayMessageCountTask extends TimerTask {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 }
