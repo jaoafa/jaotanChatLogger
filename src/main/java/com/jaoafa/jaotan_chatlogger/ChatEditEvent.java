@@ -35,6 +35,7 @@ public class ChatEditEvent {
 		String id = event.getNewMessage().getStringID();
 		String text = event.getNewMessage().getFormattedContent();
 		String rawtext = event.getNewMessage().getContent();
+		String guild_id = event.getGuild().getStringID();
 		String channel_name = event.getChannel().getName();
 		String channel_id = event.getChannel().getStringID();
 		String author_name = event.getNewMessage().getAuthor().getName();
@@ -73,22 +74,23 @@ public class ChatEditEvent {
 
 			PreparedStatement statement = MySQL.getNewPreparedStatement("INSERT INTO discordchat "
 					+ "(id, text, rawtext, channel_name, channel_id, author_name, author_nickname, author_id, author_discriminator, author_bot, msgtype, type, attachments, machine, timestamp) VALUES "
-					+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+					+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 			statement.setString(1, id);
 			statement.setString(2, text);
 			statement.setString(3, rawtext);
-			statement.setString(4, channel_name);
-			statement.setString(5, channel_id);
-			statement.setString(6, author_name);
-			statement.setString(7, author_nickname);
-			statement.setString(8, author_id);
-			statement.setString(9, author_discriminator);
-			statement.setBoolean(10, author_bot);
-			statement.setString(11, msgtype);
-			statement.setString(12, type);
-			statement.setString(13, attachments);
-			statement.setString(14, Main.getHostName());
-			statement.setString(15, timestamp);
+			statement.setString(4, guild_id);
+			statement.setString(5, channel_name);
+			statement.setString(6, channel_id);
+			statement.setString(7, author_name);
+			statement.setString(8, author_nickname);
+			statement.setString(9, author_id);
+			statement.setString(10, author_discriminator);
+			statement.setBoolean(11, author_bot);
+			statement.setString(12, msgtype);
+			statement.setString(13, type);
+			statement.setString(14, attachments);
+			statement.setString(15, Main.getHostName());
+			statement.setString(16, timestamp);
 			statement.executeUpdate();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
