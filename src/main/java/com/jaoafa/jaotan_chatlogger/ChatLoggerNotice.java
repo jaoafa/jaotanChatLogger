@@ -28,6 +28,7 @@ public class ChatLoggerNotice {
 			// 一緒だったら無視
 			return;
 		}
+		oldDate = date_str;
 
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
